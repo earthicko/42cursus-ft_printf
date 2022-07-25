@@ -6,6 +6,8 @@ static int	add_plain_text(t_list **convs, int s, int e)
 	t_conv	*new_conv;
 	t_list	*new_node;
 
+	(void) s;
+	(void) e;
 	new_conv = init_conv();
 	if (!new_conv)
 		return (CODE_ERROR_MALLOC);
@@ -26,6 +28,8 @@ static int	parse_conversion(t_list **convs, char **format)
 	// 	리스트에 결과 추가
 	// 파싱 실패시
 	// 	add_plain_text 리스트에 구간 추가
+	(void) convs;
+	(void) format;
 	return (CODE_OK);
 }
 
