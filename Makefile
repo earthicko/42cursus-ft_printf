@@ -3,7 +3,7 @@ LIBFT_DIR	= libft
 LIBFT		= libft.a
 
 INC			= $(LIBFT_DIR)
-SRCS		= ft_printf.c ft_write_chr.c ft_write_num.c parse_format.c t_conv.c
+SRCS		= debug.c ft_printf.c ft_write_chr.c ft_write_num.c ft_write_utils.c parse_format.c parse_format_utils.c t_conv.c
 OBJS		= $(SRCS:.c=.o)
 RM			= rm -f
 CC			= gcc

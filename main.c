@@ -2,6 +2,9 @@
 
 int main()
 {
-	ft_printf("Hello\n");
+	char *base = "%+.5d %+.5d\n";
+	//char *world = "World!";
+	ft_printf(base, 42, -42);
+	printf(base, 42, -42);
 	return 0;
 }
