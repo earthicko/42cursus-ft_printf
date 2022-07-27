@@ -1,30 +1,58 @@
-NAME		= libftprintf.a
-LIBFT_DIR	= libft
-LIBFT		= libft.a
+NAME			= libftprintf.a
+LIBFT_DIR		= libft
+LIBFT			= libft.a
+INC_DIR_LIBFT	= -I $(LIBFT_DIR)
 
-INC			= $(LIBFT_DIR)
-SRCS		= \
-			ft_printf.c \
-			ft_write_chr.c ft_write_num.c ft_write_ptr.c \
-			ft_write_utils.c ft_write_num_utils.c \
-			parse_format.c parse_format_utils.c t_conv.c
-OBJS		= $(SRCS:.c=.o)
-RM			= rm -f
-CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror
+INC_DIR			= -I . $(INC_DIR_LIBFT) -I inc
+SRC_DIR			= ./src/
+OBJ_DIR			= ./obj/
+
+INC_DIR_BONUS	= -I . $(INC_DIR_LIBFT) -I inc_bonus
+SRC_DIR_BONUS	= ./src_bonus/
+OBJ_DIR_BONUS	= ./obj_bonus/
+
+SRCNAME			= \
+				ft_printf \
+				ft_write_chr ft_write_num ft_write_ptr \
+				ft_write_utils \
+				parse_format parse_format_utils t_conv
+
+SRCNAME_BONUS	= \
+				ft_printf_bonus \
+				ft_write_chr_bonus ft_write_num_bonus ft_write_ptr_bonus \
+				ft_write_utils_bonus ft_write_num_utils_bonus \
+				parse_format_bonus parse_format_utils_bonus t_conv_bonus
+
+SRC				= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRCNAME)))
+OBJ				= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRCNAME)))
+
+SRC_BONUS		= $(addprefix $(SRC_DIR_BONUS), $(addsuffix .c, $(SRCNAME_BONUS)))
+OBJ_BONUS		= $(addprefix $(OBJ_DIR_BONUS), $(addsuffix .o, $(SRCNAME_BONUS)))
+
+RM				= rm -f
+CC				= gcc
+CFLAGS			= -Wall -Wextra -Werror
 
 all : $(NAME)
 
-$(NAME) : $(OBJS)
+$(NAME) : $(OBJ)
 	make all -C $(LIBFT_DIR)/
 	cp $(LIBFT_DIR)/$(LIBFT) $(NAME)
-	ar -rcus $(NAME) $(OBJS)
+	ar -rcus $(NAME) $(OBJ)
 
-.c.o :
-	$(CC) $(CFLAGS) -I $(INC) -c $< -o $@
+bonus : $(OBJ_BONUS)
+	make all -C $(LIBFT_DIR)/
+	cp $(LIBFT_DIR)/$(LIBFT) $(NAME)
+	ar -rcus $(NAME) $(OBJ_BONUS)
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@$(CC) $(CFLAGS) $(INC_DIR) -c $< -o $@
+
+$(OBJ_DIR_BONUS)%.o: $(SRC_DIR_BONUS)%.c
+	@$(CC) $(CFLAGS) $(INC_DIR_BONUS) -c $< -o $@
 
 clean :
-	$(RM) $(OBJS)
+	$(RM) $(OBJ) $(OBJ_BONUS)
 	make clean -C $(LIBFT_DIR)
 
 fclean : clean

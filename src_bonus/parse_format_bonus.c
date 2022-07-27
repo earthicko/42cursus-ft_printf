@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
-#include "./libft/libft.h"
+#include "ft_printf_bonus.h"
+#include "libft.h"
 
 static int	add_plain_text(t_list **convs, char *s, char *e)
 {

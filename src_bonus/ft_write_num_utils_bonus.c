@@ -1,5 +1,5 @@
 #include <unistd.h>
-#include "libftprintf.h"
+#include "ft_printf_bonus.h"
 
 static int	fwrite_num_sign(int fd, t_conv *conv, t_ll num)
 {
@@ -42,7 +42,7 @@ int	fwrite_num_prefix(int fd, t_conv *conv, t_ll num, t_ll base)
 		i = 0;
 		while (i < (size_t)conv->precision - len_num)
 		{
-			if (write(fd, "0", sizeof(char)) < 0)
+			if (write(fd, CHARSET_LHEX, sizeof(char)) < 0)
 				return (CODE_ERROR_IO);
 			i++;
 		}

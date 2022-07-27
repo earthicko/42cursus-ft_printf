@@ -1,5 +1,5 @@
 #include <unistd.h>
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 static size_t	ft_ptrlen(void *ptr)
 {
@@ -19,26 +19,6 @@ static size_t	ft_ptrlen(void *ptr)
 		cursor--;
 	}
 	return (len);
-}
-
-static int	fwrite_ptr_prefix(int fd, t_conv *conv, void *ptr)
-{
-	size_t	len_ptr;
-	size_t	i;
-
-	len_ptr = ft_ptrlen(ptr);
-	if (conv->f_precision && (size_t)conv->precision > len_ptr)
-	{
-		i = (size_t)conv->precision - len_ptr;
-		while (i > 0)
-		{
-			if (write(fd, CHARSET_LHEX, sizeof(char)) < 0)
-				return (CODE_ERROR_IO);
-			i--;
-		}
-		return ((size_t)conv->precision - len_ptr);
-	}
-	return (0);
 }
 
 static int	fwrite_ptr_unsigned(int fd, void *ptr)
@@ -69,7 +49,7 @@ static int	fwrite_ptr_unsigned(int fd, void *ptr)
 	return (len);
 }
 
-int	fwrite_ptr(int fd, t_conv *conv, void *ptr)
+int	fwrite_ptr(int fd, void *ptr)
 {
 	int		n_put;
 	int		res;
@@ -77,12 +57,6 @@ int	fwrite_ptr(int fd, t_conv *conv, void *ptr)
 	n_put = write(fd, PREFIX_HEX, L_PREFIX_HEX);
 	if (n_put < 0)
 		return (CODE_ERROR_IO);
-	res = fwrite_ptr_prefix(fd, conv, ptr);
-	if (res < 0)
-		return (CODE_ERROR_IO);
-	n_put += res;
-	if (ptr == (void *)0 && conv->f_precision)
-		return (n_put);
 	res = fwrite_ptr_unsigned(fd, ptr);
 	if (res < 0)
 		return (CODE_ERROR_IO);

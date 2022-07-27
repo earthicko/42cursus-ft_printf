@@ -1,5 +1,5 @@
-#ifndef CONSTS_H
-# define CONSTS_H
+#ifndef CONSTS_BONUS_H
+# define CONSTS_BONUS_H
 # define CODE_OK 0
 # define CODE_ERROR_GENERIC -1
 # define CODE_ERROR_MALLOC -2
