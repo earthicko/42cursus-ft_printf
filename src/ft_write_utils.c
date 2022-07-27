@@ -1,19 +1,6 @@
 #include <unistd.h>
 #include "ft_printf.h"
 
-size_t	ft_numlen_base(t_ll num, t_ll base)
-{
-	size_t	len;
-
-	len = 0;
-	while (num != 0)
-	{
-		num /= base;
-		len++;
-	}
-	return (len);
-}
-
 static int	putdigit_fd_base_unsigned(int fd, t_ll nbr, char *base, int l_base)
 {
 	int	n_put;
@@ -32,9 +19,10 @@ static int	putdigit_fd_base_unsigned(int fd, t_ll nbr, char *base, int l_base)
 	return (n_put + 1);
 }
 
-int	ft_putnbr_fd_base_unsigned(int fd, t_ll nbr, char *base)
+int	ft_putnbr_fd_base(int fd, t_ll nbr, char *base)
 {
 	int	n_put;
+	int	res;
 	int	l_base;
 
 	l_base = ft_strlen(base);
@@ -45,8 +33,16 @@ int	ft_putnbr_fd_base_unsigned(int fd, t_ll nbr, char *base)
 			return (CODE_ERROR_IO);
 		return (n_put);
 	}
-	n_put = putdigit_fd_base_unsigned(fd, nbr, base, l_base);
-	if (n_put < 0)
+	n_put = 0;
+	if (nbr < 0)
+	{
+		if (write(fd, PREFIX_NEG, L_PREFIX_NEG) < 0)
+			return (CODE_ERROR_IO);
+		n_put += L_PREFIX_NEG;
+	}
+	res = putdigit_fd_base_unsigned(fd, nbr, base, l_base);
+	if (res < 0)
 		return (CODE_ERROR_IO);
+	n_put += res;
 	return (n_put);
 }

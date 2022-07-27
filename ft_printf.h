@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: donghyle <donghyle@student.42seoul.kr>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/25 15:34:52 by donghyle          #+#    #+#             */
-/*   Updated: 2022/07/25 15:34:53 by donghyle         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 # include "libft.h"
@@ -45,7 +33,6 @@ int		fwrite_uhex(int fd, t_uint num);
 
 int		fwrite_ptr(int fd, void *ptr);
 
-int		ft_putnbr_fd_base_unsigned(int fd, t_ll nbr, char *base);
-size_t	ft_numlen_base(t_ll num, t_ll base);
+int		ft_putnbr_fd_base(int fd, t_ll nbr, char *base);
 
 #endif
