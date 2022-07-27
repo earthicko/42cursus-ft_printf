@@ -13,64 +13,76 @@
 #include <unistd.h>
 #include "libftprintf.h"
 
-int	fwrite_num_prefix(int fd, t_conv *conv, t_ll num, t_ll base)
+int	fwrite_sdec(int fd, t_conv *conv, int num)
 {
-	size_t	len_num;
-	size_t	i;
+	int	n_put;
+	int	res;
 
-	if (conv->f_sign)
-	{
-		if (num > 0 && write(fd, PREFIX_POS, L_PREFIX_POS) < 0)
-			return (CODE_ERROR_IO);
-	}
-	else if (conv->f_blank)
-	{
-		if (num > 0 && write(fd, " ", 1) < 0)
-			return (CODE_ERROR_IO);
-	}
-	len_num = ft_numlen_base(num, base);
-	if (conv->f_precision && (size_t)conv->precision > len_num)
-	{
-		i = 0;
-		while (i < (size_t)conv->precision - len_num)
-		{
-			if (write(fd, "0", sizeof(char)) < 0)
-				return (CODE_ERROR_IO);
-			i++;
-		}
-	}
-	return (CODE_OK);
-}
-
-int	fwrite_sdec(int fd, t_conv *conv, t_ll num)
-{
-	if (fwrite_num_prefix(fd, conv, num, 10) < 0)
+	n_put = fwrite_num_prefix(fd, conv, num, 10);
+	if (n_put < 0)
 		return (CODE_ERROR_IO);
-	if (ft_putnbr_fd_base(fd, num, CHARSET_DEC) < 0)
+	if (num == 0 && conv->f_precision)
+		return (n_put);
+	res = ft_putnbr_fd_base_unsigned(fd, num, CHARSET_DEC);
+	if (res < 0)
 		return (CODE_ERROR_IO);
-	return (CODE_OK);
+	n_put += res;
+	return (n_put);
 }
 
-int	fwrite_udec(int fd, t_conv *conv, t_ll num)
+int	fwrite_udec(int fd, t_conv *conv, t_uint num)
 {
-	(void) fd;
-	(void) conv;
-	(void) num;
-	return (0);
+	int	n_put;
+	int	res;
+
+	conv->f_sign = FALSE;
+	conv->f_blank = FALSE;
+	n_put = fwrite_num_prefix(fd, conv, num, 10);
+	if (n_put < 0)
+		return (CODE_ERROR_IO);
+	if (num == 0 && conv->f_precision)
+		return (n_put);
+	res = ft_putnbr_fd_base_unsigned(fd, num, CHARSET_DEC);
+	if (res < 0)
+		return (CODE_ERROR_IO);
+	n_put += res;
+	return (n_put);
 }
 
-int	fwrite_lhex(int fd, t_conv *conv, t_ll num)
+int	fwrite_lhex(int fd, t_conv *conv, t_uint num)
 {
-	(void) fd;
-	(void) conv;
-	(void) num;
-	return (0);
+	int	n_put;
+	int	res;
+
+	conv->f_sign = FALSE;
+	conv->f_blank = FALSE;
+	n_put = fwrite_num_prefix(fd, conv, num, 16);
+	if (n_put < 0)
+		return (CODE_ERROR_IO);
+	if (num == 0 && conv->f_precision)
+		return (CODE_OK);
+	res = ft_putnbr_fd_base_unsigned(fd, num, CHARSET_LHEX);
+	if (res < 0)
+		return (CODE_ERROR_IO);
+	n_put += res;
+	return (n_put);
 }
 
-int	fwrite_uhex(int fd, t_conv *conv, t_ll num)
+int	fwrite_uhex(int fd, t_conv *conv, t_uint num)
 {
-	(void) fd;
-	(void) conv;
-	(void) num;
-	return (0);
+	int	n_put;
+	int	res;
+
+	conv->f_sign = FALSE;
+	conv->f_blank = FALSE;
+	n_put = fwrite_num_prefix(fd, conv, num, 16);
+	if (n_put < 0)
+		return (CODE_ERROR_IO);
+	if (num == 0 && conv->f_precision)
+		return (CODE_OK);
+	res = ft_putnbr_fd_base_unsigned(fd, num, CHARSET_UHEX);
+	if (res < 0)
+		return (CODE_ERROR_IO);
+	n_put += res;
+	return (n_put);
 }

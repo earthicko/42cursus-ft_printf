@@ -61,7 +61,6 @@ static int	fwrite_conv(int fd, t_list *convs, va_list p_args)
 	while (convs != NULL)
 	{
 		conv = convs->content;
-		printf(">>> fwrite_conv: writing conv [%p]\n", conv);
 		if (PLAIN <= conv->i_conv && conv->i_conv < SDEC)
 			n_put += fwrite_conv_1(fd, conv, p_args);
 		else
@@ -78,7 +77,6 @@ int	ft_printf(const char *format, ...)
 	t_list	*convs;
 	int		n_put;
 
-	printf(">>> ft_printf: printing %s\n", format);
 	convs = NULL;
 	n_conv = parse_format(&convs, format);
 	if (n_conv < 0)

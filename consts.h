@@ -18,17 +18,22 @@
 # define SYMBOL_LHEX 'x'
 # define SYMBOL_UHEX 'X'
 # define SYMBOL_PCENT '%'
+# define SYMBOL_NULL "(null)"
 # define CHARSET_DEC "0123456789"
 # define CHARSET_LHEX "0123456789abcdef"
 # define CHARSET_UHEX "0123456789ABCDEF"
 # define PREFIX_HEX "0x"
 # define PREFIX_POS "+"
 # define PREFIX_NEG "-"
+# define PREFIX_BLANK " "
 # define L_PREFIX_HEX 2
 # define L_PREFIX_POS 1
 # define L_PREFIX_NEG 1
+# define L_PREFIX_BLANK 1
+
 typedef long long			t_ll;
 typedef unsigned long long	t_ull;
+typedef unsigned int		t_uint;
 enum e_conv
 {
 	PLAIN = 0,

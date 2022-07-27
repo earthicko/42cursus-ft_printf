@@ -14,37 +14,39 @@ size_t	ft_numlen_base(t_ll num, t_ll base)
 	return (len);
 }
 
-static int	putnbr_fd_base_unsigned(int fd, t_ll nbr, char *base, int l_base)
+static int	putdigit_fd_base_unsigned(int fd, t_ll nbr, char *base, int l_base)
 {
+	int	n_put;
 	int	digit;
 
 	if (nbr == 0)
-		return (CODE_OK);
+		return (0);
 	digit = nbr % l_base;
 	if (digit < 0)
 		digit = -digit;
-	if (putnbr_fd_base_unsigned(fd, nbr / l_base, base, l_base) < 0)
+	n_put = putdigit_fd_base_unsigned(fd, nbr / l_base, base, l_base);
+	if (n_put < 0)
 		return (CODE_ERROR_IO);
 	if (write(fd, base + digit, sizeof(char)) < 0)
 		return (CODE_ERROR_IO);
-	return (CODE_OK);
+	return (n_put + 1);
 }
 
-int	ft_putnbr_fd_base(int fd, t_ll nbr, char *base)
+int	ft_putnbr_fd_base_unsigned(int fd, t_ll nbr, char *base)
 {
+	int	n_put;
 	int	l_base;
 
 	l_base = ft_strlen(base);
-	if (nbr < 0)
-	{
-		if (write(fd, "-", sizeof(char)) < 0)
-			return (CODE_ERROR_IO);
-	}
 	if (nbr == 0)
 	{
-		if (write(fd, base, sizeof(char)) < 0)
+		n_put = write(fd, base, sizeof(char));
+		if (n_put < 0)
 			return (CODE_ERROR_IO);
-		return (CODE_OK);
+		return (n_put);
 	}
-	return (putnbr_fd_base_unsigned(fd, nbr, base, l_base));
+	n_put = putdigit_fd_base_unsigned(fd, nbr, base, l_base);
+	if (n_put < 0)
+		return (CODE_ERROR_IO);
+	return (n_put);
 }

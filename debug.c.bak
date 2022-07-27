@@ -4,7 +4,9 @@ void	debug_print_conv(void *c)
 {
 	t_conv	*conv;
 
+	(void) conv;
 	conv = (t_conv *)c;
+	#ifdef DEBUG
 	printf(">>> debug_print_conv: i %d\n", conv->i_conv);
 	printf(">>> debug_print_conv: [%p:%p]", conv->s, conv->e);
 	if (conv->s != NULL && conv->e != NULL)
@@ -24,4 +26,5 @@ void	debug_print_conv(void *c)
 		printf(">>> debug_print_conv: f_blank on\n");
 	if (conv->f_sign)
 		printf(">>> debug_print_conv: f_sign on\n");
+	#endif
 }
