@@ -35,7 +35,7 @@ t_conv	*copy_conv(t_conv *orig);
 void	del_conv(void *conv);
 
 int		fwrite_plain(int fd, t_conv *conv);
-int		fwrite_char(int fd, int c);
+int		fwrite_char(int fd, t_conv *conv, int c);
 int		fwrite_str(int fd, t_conv *conv, char *str);
 int		fwrite_pcent(int fd);
 

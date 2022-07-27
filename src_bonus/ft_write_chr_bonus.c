@@ -12,17 +12,45 @@ int	fwrite_plain(int fd, t_conv *conv)
 		return (CODE_ERROR_IO);
 }
 
-int	fwrite_char(int fd, int c)
+static int	fwrite_blanks(int fd, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < n)
+	{
+		if (write(fd, " ", sizeof(char)) < 0)
+			return (CODE_ERROR_IO);
+		i++;
+	}
+	return (n);
+}
+
+int	fwrite_char(int fd, t_conv *conv, int c)
 {
 	unsigned char	buf;
 	int				n_put;
+	int				res;
 
 	buf = (unsigned char)c;
-	n_put = sizeof(unsigned char);
-	if (write(fd, &buf, n_put) >= 0)
-		return (n_put);
-	else
+	n_put = 0;
+	if (!conv->f_left && conv->f_minwidth && conv->minwidth > 1)
+	{
+		if (fwrite_blanks(fd, conv->minwidth - 1) < 0)
+			return (CODE_ERROR_IO);
+		n_put += conv->minwidth - 1;
+	}
+	res = write(fd, &buf, sizeof(unsigned char));
+	if (res < 0)
 		return (CODE_ERROR_IO);
+	n_put += res;
+	if (conv->f_left && conv->f_minwidth && conv->minwidth > 1)
+	{
+		if (fwrite_blanks(fd, conv->minwidth - 1) < 0)
+			return (CODE_ERROR_IO);
+		n_put += conv->minwidth - 1;
+	}
+	return (n_put);
 }
 
 int	fwrite_str(int fd, t_conv *conv, char *str)

@@ -10,7 +10,7 @@ static int	fwrite_conv_1(int fd, t_conv *cv, va_list p_args)
 	if (cv->i_conv == PLAIN)
 		n_put += fwrite_plain(fd, cv);
 	else if (cv->i_conv == CHAR)
-		n_put += fwrite_char(fd, va_arg(p_args, int));
+		n_put += fwrite_char(fd, cv, va_arg(p_args, int));
 	else if (cv->i_conv == STR)
 		n_put += fwrite_str(fd, cv, va_arg(p_args, char *));
 	else if (cv->i_conv == PTR)
