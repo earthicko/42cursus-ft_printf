@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "ft_printf_bonus.h"
 
-int	init_conv(t_conv *conv)
+static int	init_conv(t_conv *conv)
 {
 	conv->i_conv = CODE_ERROR_GENERIC;
 	conv->s = NULL;
@@ -26,17 +26,6 @@ t_conv	*create_conv(void)
 	if (!new_conv)
 		return (NULL);
 	init_conv(new_conv);
-	return (new_conv);
-}
-
-t_conv	*copy_conv(t_conv *orig)
-{
-	t_conv	*new_conv;
-
-	new_conv = (t_conv *)malloc(sizeof(t_conv));
-	if (!new_conv)
-		return (NULL);
-	ft_memcpy(new_conv, orig, sizeof(t_conv));
 	return (new_conv);
 }
 

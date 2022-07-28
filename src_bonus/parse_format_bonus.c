@@ -50,7 +50,7 @@ static int	parse_conversion(t_list **convs, char **format)
 	parse_printf_flags(new_conv, format);
 	parse_printf_minwidth(new_conv, format);
 	parse_printf_precision(new_conv, format);
-	if (parse_printf_conv(format, new_conv) != CODE_OK)
+	if (parse_printf_conv(new_conv, format) != CODE_OK)
 	{
 		del_conv(new_conv);
 		return (CODE_ERROR_GENERIC);

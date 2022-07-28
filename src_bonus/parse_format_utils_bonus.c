@@ -1,6 +1,6 @@
 #include "ft_printf_bonus.h"
 
-int	is_printf_flag(char c)
+static int	is_printf_flag(char c)
 {
 	if (c == '#' || c == ' ' || c == '+' || c == '-' || c == '0')
 		return (TRUE);
@@ -57,7 +57,7 @@ void	parse_printf_precision(t_conv *conv, char **format)
 	}
 }
 
-int	parse_printf_conv(char **fmt, t_conv *conv)
+int	parse_printf_conv(t_conv *conv, char **fmt)
 {
 	if (**fmt == SYMBOL_CHAR)
 		conv->i_conv = CHAR;

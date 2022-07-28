@@ -19,9 +19,9 @@ SRCNAME			= \
 
 SRCNAME_BONUS	= \
 				ft_printf_bonus \
-				ft_write_chr_bonus ft_write_num_bonus ft_write_ptr_bonus \
-				ft_write_utils_bonus ft_write_num_utils_bonus \
-				parse_format_bonus parse_format_utils_bonus t_conv_bonus
+				fwrite_chr_bonus fwrite_num_bonus fwrite_ptr_bonus \
+				fwrite_utils_bonus ft_str_utils_bonus \
+				parse_format_bonus parse_format_utils_bonus t_conv_bonus ft_numlen_bonus
 
 SRC				= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRCNAME)))
 OBJ				= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRCNAME)))
@@ -46,10 +46,10 @@ bonus : $(OBJ_BONUS)
 	ar -rcus $(NAME) $(OBJ_BONUS)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	@$(CC) $(CFLAGS) $(INC_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) $(INC_DIR) -c $< -o $@
 
 $(OBJ_DIR_BONUS)%.o: $(SRC_DIR_BONUS)%.c
-	@$(CC) $(CFLAGS) $(INC_DIR_BONUS) -c $< -o $@
+	$(CC) $(CFLAGS) $(INC_DIR_BONUS) -c $< -o $@
 
 clean :
 	$(RM) $(OBJ) $(OBJ_BONUS)

@@ -4,7 +4,8 @@
 
 static int	fwrite_conv_1(int fd, t_conv *cv, va_list p_args)
 {
-	int	n_put;
+	int		n_put;
+	char	*temp;
 
 	n_put = 0;
 	if (cv->i_conv == PLAIN)
@@ -12,7 +13,12 @@ static int	fwrite_conv_1(int fd, t_conv *cv, va_list p_args)
 	else if (cv->i_conv == CHAR)
 		n_put += fwrite_char(fd, cv, va_arg(p_args, int));
 	else if (cv->i_conv == STR)
-		n_put += fwrite_str(fd, cv, va_arg(p_args, char *));
+	{
+		temp = va_arg(p_args, char *);
+		if (!temp)
+			temp = SYMBOL_NULL;
+		n_put += fwrite_str(fd, cv, temp);
+	}
 	else if (cv->i_conv == PTR)
 		n_put += fwrite_ptr(fd, cv, va_arg(p_args, void *));
 	else
@@ -30,9 +36,9 @@ static int	fwrite_conv_2(int fd, t_conv *cv, va_list p_args)
 	else if (cv->i_conv == UDEC)
 		n_put += fwrite_udec(fd, cv, va_arg(p_args, int));
 	else if (cv->i_conv == LHEX)
-		n_put += fwrite_lhex(fd, cv, va_arg(p_args, int));
+		n_put += fwrite_hex(fd, cv, va_arg(p_args, int), CHARSET_LHEX);
 	else if (cv->i_conv == UHEX)
-		n_put += fwrite_uhex(fd, cv, va_arg(p_args, int));
+		n_put += fwrite_hex(fd, cv, va_arg(p_args, int), CHARSET_UHEX);
 	else if (cv->i_conv == PCENT)
 		n_put += fwrite_pcent(fd);
 	else
