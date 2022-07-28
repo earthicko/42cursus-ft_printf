@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 
-int	parse_printf_conv(char **fmt, t_conv *conv)
+int	parse_printf_conv(t_conv *conv, char **fmt)
 {
 	if (**fmt == SYMBOL_CHAR)
 		conv->i_conv = CHAR;

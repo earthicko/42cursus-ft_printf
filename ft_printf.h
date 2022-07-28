@@ -14,9 +14,8 @@ int		ft_printf(const char *format, ...);
 
 int		parse_format(t_list **convs, const char *format);
 
-int		parse_printf_conv(char **fmt, t_conv *conv);
+int		parse_printf_conv(t_conv *conv, char **fmt);
 
-int		init_conv(t_conv *conv);
 t_conv	*create_conv(void);
 t_conv	*copy_conv(t_conv *orig);
 void	del_conv(void *conv);

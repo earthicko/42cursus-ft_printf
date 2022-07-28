@@ -5,7 +5,7 @@ int	fwrite_plain(int fd, t_conv *conv)
 {
 	int	n_put;
 
-	n_put = sizeof(char) * (conv->e - conv->s);
+	n_put = conv->e - conv->s;
 	if (write(fd, conv->s, n_put) >= 0)
 		return (n_put);
 	else
@@ -42,7 +42,7 @@ int	fwrite_pcent(int fd)
 	char	pcent;
 
 	pcent = SYMBOL_PCENT;
-	if (write(fd, &pcent, sizeof(char)) < 0)
+	if (write(fd, &pcent, 1) < 0)
 		return (CODE_ERROR_IO);
 	else
 		return (1);

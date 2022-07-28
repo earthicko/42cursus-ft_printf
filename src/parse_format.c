@@ -48,7 +48,7 @@ static int	parse_conversion(t_list **convs, char **format)
 		return (CODE_ERROR_MALLOC);
 	start = *format;
 	(*format)++;
-	if (parse_printf_conv(format, new_conv) != CODE_OK)
+	if (parse_printf_conv(new_conv, format) != CODE_OK)
 	{
 		del_conv(new_conv);
 		return (CODE_ERROR_GENERIC);
@@ -58,11 +58,9 @@ static int	parse_conversion(t_list **convs, char **format)
 
 int	parse_format(t_list **convs, const char *format)
 {
-	int		n_conv;
 	char	*cursor;
 	char	*temp;
 
-	n_conv = 0;
 	cursor = (char *)format;
 	while (*cursor != '\0')
 	{
@@ -79,7 +77,6 @@ int	parse_format(t_list **convs, const char *format)
 			if (add_plain_text(convs, temp, cursor) < 0)
 				return (CODE_ERROR_MALLOC);
 		}
-		n_conv++;
 	}
-	return (n_conv);
+	return (CODE_OK);
 }

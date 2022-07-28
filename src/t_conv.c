@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "ft_printf.h"
 
-int	init_conv(t_conv *conv)
+static int	init_conv(t_conv *conv)
 {
 	conv->i_conv = CODE_ERROR_GENERIC;
 	conv->s = NULL;

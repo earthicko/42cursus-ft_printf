@@ -13,15 +13,16 @@ OBJ_DIR_BONUS	= ./obj_bonus/
 
 SRCNAME			= \
 				ft_printf \
-				ft_write_chr ft_write_num ft_write_ptr \
-				ft_write_utils \
+				fwrite_chr fwrite_num fwrite_ptr \
+				fwrite_utils \
 				parse_format parse_format_utils t_conv
 
 SRCNAME_BONUS	= \
 				ft_printf_bonus \
 				fwrite_chr_bonus fwrite_num_bonus fwrite_ptr_bonus \
-				fwrite_utils_bonus ft_str_utils_bonus \
-				parse_format_bonus parse_format_utils_bonus t_conv_bonus ft_numlen_bonus
+				fwrite_utils_bonus ft_str_utils_bonus ft_numlen_bonus \
+				parse_format_bonus parse_format_utils_bonus t_conv_bonus \
+				create_str_bonus create_str_utils_bonus
 
 SRC				= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRCNAME)))
 OBJ				= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRCNAME)))

@@ -61,13 +61,13 @@ static int	fwrite_conv(int fd, t_list *convs, va_list p_args)
 int	ft_printf(const char *format, ...)
 {
 	va_list	p_args;
-	int		n_conv;
+	int		res;
 	t_list	*convs;
 	int		n_put;
 
 	convs = NULL;
-	n_conv = parse_format(&convs, format);
-	if (n_conv < 0)
+	res = parse_format(&convs, format);
+	if (res < 0)
 	{
 		ft_lstclear(&convs, del_conv);
 		return (CODE_ERROR_GENERIC);

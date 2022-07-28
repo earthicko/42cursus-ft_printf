@@ -1,10 +1,10 @@
 #include <unistd.h>
 #include "ft_printf.h"
 
-static size_t	ft_ptrlen(void *ptr)
+static int	ft_ptrlen(void *ptr)
 {
 	unsigned char	*cursor;
-	size_t			len;
+	int				len;
 
 	len = sizeof(ptr) * 2;
 	cursor = (unsigned char *)(&ptr) + sizeof(ptr) - 1;
@@ -24,12 +24,12 @@ static size_t	ft_ptrlen(void *ptr)
 static int	fwrite_ptr_unsigned(int fd, void *ptr)
 {
 	unsigned char	*cursor;
-	size_t			i;
-	size_t			len;
+	int				i;
+	int				len;
 
 	if (ptr == NULL)
 	{
-		if (write(fd, CHARSET_LHEX, sizeof(char)) < 0)
+		if (write(fd, CHARSET_LHEX, 1) < 0)
 			return (CODE_ERROR_IO);
 		return (1);
 	}
@@ -54,7 +54,7 @@ int	fwrite_ptr(int fd, void *ptr)
 	int		n_put;
 	int		res;
 
-	n_put = write(fd, PREFIX_HEX, L_PREFIX_HEX);
+	n_put = write(fd, PREFIX_LHEX, L_PREFIX_HEX);
 	if (n_put < 0)
 		return (CODE_ERROR_IO);
 	res = fwrite_ptr_unsigned(fd, ptr);

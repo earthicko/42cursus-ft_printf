@@ -14,7 +14,7 @@ static int	putdigit_fd_base_unsigned(int fd, t_ll nbr, char *base, int l_base)
 	n_put = putdigit_fd_base_unsigned(fd, nbr / l_base, base, l_base);
 	if (n_put < 0)
 		return (CODE_ERROR_IO);
-	if (write(fd, base + digit, sizeof(char)) < 0)
+	if (write(fd, base + digit, 1) < 0)
 		return (CODE_ERROR_IO);
 	return (n_put + 1);
 }
@@ -28,7 +28,7 @@ int	ft_putnbr_fd_base(int fd, t_ll nbr, char *base)
 	l_base = ft_strlen(base);
 	if (nbr == 0)
 	{
-		n_put = write(fd, base, sizeof(char));
+		n_put = write(fd, base, 1);
 		if (n_put < 0)
 			return (CODE_ERROR_IO);
 		return (n_put);
