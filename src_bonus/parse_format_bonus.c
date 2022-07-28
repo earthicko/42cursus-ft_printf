@@ -60,11 +60,9 @@ static int	parse_conversion(t_list **convs, char **format)
 
 int	parse_format(t_list **convs, const char *format)
 {
-	int		n_conv;
 	char	*cursor;
 	char	*temp;
 
-	n_conv = 0;
 	cursor = (char *)format;
 	while (*cursor != '\0')
 	{
@@ -81,7 +79,6 @@ int	parse_format(t_list **convs, const char *format)
 			if (add_plain_text(convs, temp, cursor) < 0)
 				return (CODE_ERROR_MALLOC);
 		}
-		n_conv++;
 	}
-	return (n_conv);
+	return (CODE_OK);
 }
