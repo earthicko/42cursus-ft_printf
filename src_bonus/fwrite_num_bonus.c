@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fwrite_num_bonus.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: donghyle <donghyle@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/29 16:14:34 by donghyle          #+#    #+#             */
+/*   Updated: 2022/07/29 16:14:35 by donghyle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include "ft_printf_bonus.h"
 
-int	fwrite_sdec(int fd, t_conv *conv, int num)
+int	fwrite_int(int fd, t_conv *conv, int num, char *charset)
 {
 	int		res;
 	char	*buf[4];
 
-	buf[1] = cstr_prefix(conv, num, 10);
-	buf[2] = cstr_nbr(conv, num, CHARSET_DEC);
+	buf[1] = cstr_prefix(conv, num, ft_strlen(charset));
+	buf[2] = cstr_nbr(conv, num, charset);
 	buf[3] = cstr_padding(conv, ft_strlen(buf[1]) + ft_strlen(buf[2]));
 	buf[0] = merge_num_buffers(conv, buf);
 	if (!buf[0])
@@ -16,9 +28,9 @@ int	fwrite_sdec(int fd, t_conv *conv, int num)
 		return (CODE_ERROR_MALLOC);
 	}
 	res = write(fd, buf[0], ft_strlen(buf[0]));
-	if (res < 0)
-		return (CODE_ERROR_IO);
 	abort_fwrite(buf);
+	if (res < 0)
+		return (res);
 	return (res);
 }
 
@@ -37,8 +49,8 @@ int	fwrite_uint(int fd, t_conv *conv, t_uint num, char *charset)
 		return (CODE_ERROR_MALLOC);
 	}
 	res = write(fd, buf[0], ft_strlen(buf[0]));
-	if (res < 0)
-		return (CODE_ERROR_IO);
 	abort_fwrite(buf);
+	if (res < 0)
+		return (res);
 	return (res);
 }

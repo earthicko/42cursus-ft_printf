@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fwrite_ptr_bonus.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: donghyle <donghyle@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/29 16:14:35 by donghyle          #+#    #+#             */
+/*   Updated: 2022/07/29 16:14:36 by donghyle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include "ft_printf_bonus.h"
 
@@ -101,8 +113,8 @@ int	fwrite_ptr(int fd, t_conv *conv, void *ptr)
 		return (CODE_ERROR_MALLOC);
 	}
 	res = write(fd, buf[0], ft_strlen(buf[0]));
-	if (res < 0)
-		return (CODE_ERROR_IO);
 	abort_fwrite(buf);
+	if (res < 0)
+		return (res);
 	return (res);
 }

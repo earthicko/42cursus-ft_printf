@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf_bonus.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: donghyle <donghyle@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/29 16:14:29 by donghyle          #+#    #+#             */
+/*   Updated: 2022/07/29 16:14:30 by donghyle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdarg.h>
 #include <unistd.h>
 #include "ft_printf_bonus.h"
@@ -13,7 +25,7 @@ static int	fwrite_conv(int fd, t_conv *cv, va_list p_args)
 	else if (cv->i_conv == PTR)
 		return (fwrite_ptr(fd, cv, va_arg(p_args, void *)));
 	else if (cv->i_conv == SDEC)
-		return (fwrite_sdec(fd, cv, va_arg(p_args, int)));
+		return (fwrite_int(fd, cv, va_arg(p_args, int), CHARSET_DEC));
 	else if (cv->i_conv == UDEC)
 		return (fwrite_uint(fd, cv, va_arg(p_args, int), CHARSET_DEC));
 	else if (cv->i_conv == LHEX)
@@ -21,7 +33,7 @@ static int	fwrite_conv(int fd, t_conv *cv, va_list p_args)
 	else if (cv->i_conv == UHEX)
 		return (fwrite_uint(fd, cv, va_arg(p_args, int), CHARSET_UHEX));
 	else if (cv->i_conv == PCENT)
-		return (fwrite_pcent(fd));
+		return (fwrite_char(fd, cv, SYMBOL_PCENT));
 	else
 		return (CODE_ERROR_GENERIC);
 }

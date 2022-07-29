@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_str_utils_bonus.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: donghyle <donghyle@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/29 16:14:31 by donghyle          #+#    #+#             */
+/*   Updated: 2022/07/29 16:14:32 by donghyle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdarg.h>
 #include "libft.h"
 #include "ft_printf_bonus.h"
@@ -33,6 +45,7 @@ char	*ft_strmerge(int n_str, ...)
 		temp = va_arg(p_args, char *);
 		if (ft_strappend(&buf, temp) < 0)
 		{
+			va_end(p_args);
 			free(buf);
 			return (NULL);
 		}

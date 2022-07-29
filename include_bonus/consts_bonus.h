@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   consts_bonus.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: donghyle <donghyle@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/29 16:13:41 by donghyle          #+#    #+#             */
+/*   Updated: 2022/07/29 16:13:42 by donghyle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CONSTS_BONUS_H
 # define CONSTS_BONUS_H
 # define CODE_OK 0
 # define CODE_ERROR_GENERIC -1
 # define CODE_ERROR_MALLOC -2
-# define CODE_ERROR_IO -3
 # define SYMBOL_ALTFORM '#'
 # define SYMBOL_BLANK ' '
 # define SYMBOL_SIGN '+'

@@ -1,17 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: donghyle <donghyle@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/29 16:12:59 by donghyle          #+#    #+#             */
+/*   Updated: 2022/07/29 16:13:01 by donghyle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 #include <stdio.h>
 #include <limits.h>
 
-int main(){
-	char *base = "%#x\n";
-	int num = 0;
-	int ret1 = ft_printf(base, num);
-	int ret2 = printf(base, num);
-	printf("ret %d %d\n", ret1, ret2);
-	// system("leaks main");
+int	main(void)
+{
+	char	*base;
+	char	num;
+	int		ret1;
+	int		ret2;
 
-	// TEST(15, print(" %04d ", -14));
-	// TEST(16, print(" %05d ", -15));
-	// TEST(17, print(" %06d ", -16));
-	return 0;
+	base = ">------------<%2c>------------<";
+	num = 0;
+	ret1 = ft_printf(base, num);
+	printf("\n");
+	ret2 = printf(base, num);
+	printf("\n");
+	printf("ret %d %d\n", ret1, ret2);
+	printf("\n");
+	return (0);
 }

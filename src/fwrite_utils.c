@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fwrite_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: donghyle <donghyle@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/29 16:14:08 by donghyle          #+#    #+#             */
+/*   Updated: 2022/07/29 16:14:09 by donghyle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include "ft_printf.h"
 
@@ -5,6 +17,7 @@ static int	putdigit_fd_base_unsigned(int fd, t_ll nbr, char *base, int l_base)
 {
 	int	n_put;
 	int	digit;
+	int	res;
 
 	if (nbr == 0)
 		return (0);
@@ -13,10 +26,11 @@ static int	putdigit_fd_base_unsigned(int fd, t_ll nbr, char *base, int l_base)
 		digit = -digit;
 	n_put = putdigit_fd_base_unsigned(fd, nbr / l_base, base, l_base);
 	if (n_put < 0)
-		return (CODE_ERROR_IO);
-	if (write(fd, base + digit, 1) < 0)
-		return (CODE_ERROR_IO);
-	return (n_put + 1);
+		return (n_put);
+	res = write(fd, base + digit, 1);
+	if (res < 0)
+		return (res);
+	return (n_put + res);
 }
 
 int	ft_putnbr_fd_base(int fd, t_ll nbr, char *base)
@@ -27,22 +41,17 @@ int	ft_putnbr_fd_base(int fd, t_ll nbr, char *base)
 
 	l_base = ft_strlen(base);
 	if (nbr == 0)
-	{
-		n_put = write(fd, base, 1);
-		if (n_put < 0)
-			return (CODE_ERROR_IO);
-		return (n_put);
-	}
+		return (write(fd, base, 1));
 	n_put = 0;
 	if (nbr < 0)
 	{
-		if (write(fd, PREFIX_NEG, L_PREFIX_NEG) < 0)
-			return (CODE_ERROR_IO);
-		n_put += L_PREFIX_NEG;
+		res = write(fd, PREFIX_NEG, L_PREFIX_NEG);
+		if (res < 0)
+			return (res);
+		n_put += res;
 	}
 	res = putdigit_fd_base_unsigned(fd, nbr, base, l_base);
 	if (res < 0)
-		return (CODE_ERROR_IO);
-	n_put += res;
-	return (n_put);
+		return (res);
+	return (n_put + res);
 }

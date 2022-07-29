@@ -3,13 +3,11 @@ LIBFT_DIR		= libft
 LIBFT			= libft.a
 INC_DIR_LIBFT	= -I $(LIBFT_DIR)
 
-INC_DIR			= -I . $(INC_DIR_LIBFT) -I inc
+INC_DIR			= -I . $(INC_DIR_LIBFT) -I include
 SRC_DIR			= ./src/
-OBJ_DIR			= ./obj/
 
-INC_DIR_BONUS	= -I . $(INC_DIR_LIBFT) -I inc_bonus
+INC_DIR_BONUS	= -I . $(INC_DIR_LIBFT) -I include_bonus
 SRC_DIR_BONUS	= ./src_bonus/
-OBJ_DIR_BONUS	= ./obj_bonus/
 
 SRCNAME			= \
 				ft_printf \
@@ -25,10 +23,10 @@ SRCNAME_BONUS	= \
 				create_str_bonus create_str_utils_bonus
 
 SRC				= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRCNAME)))
-OBJ				= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRCNAME)))
+OBJ				= $(addprefix $(SRC_DIR), $(addsuffix .o, $(SRCNAME)))
 
 SRC_BONUS		= $(addprefix $(SRC_DIR_BONUS), $(addsuffix .c, $(SRCNAME_BONUS)))
-OBJ_BONUS		= $(addprefix $(OBJ_DIR_BONUS), $(addsuffix .o, $(SRCNAME_BONUS)))
+OBJ_BONUS		= $(addprefix $(SRC_DIR_BONUS), $(addsuffix .o, $(SRCNAME_BONUS)))
 
 RM				= rm -f
 CC				= gcc
@@ -46,10 +44,10 @@ bonus : $(OBJ_BONUS)
 	cp $(LIBFT_DIR)/$(LIBFT) $(NAME)
 	ar -rcus $(NAME) $(OBJ_BONUS)
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+$(SRC_DIR)%.o: $(SRC_DIR)%.c
 	$(CC) $(CFLAGS) $(INC_DIR) -c $< -o $@
 
-$(OBJ_DIR_BONUS)%.o: $(SRC_DIR_BONUS)%.c
+$(SRC_DIR_BONUS)%.o: $(SRC_DIR_BONUS)%.c
 	$(CC) $(CFLAGS) $(INC_DIR_BONUS) -c $< -o $@
 
 clean :

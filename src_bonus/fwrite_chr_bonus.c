@@ -1,28 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fwrite_chr_bonus.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: donghyle <donghyle@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/29 16:14:32 by donghyle          #+#    #+#             */
+/*   Updated: 2022/07/29 16:14:33 by donghyle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include "ft_printf_bonus.h"
 
 int	fwrite_plain(int fd, t_conv *conv)
 {
-	int	n_put;
-
-	n_put = conv->e - conv->s;
-	if (write(fd, conv->s, n_put) >= 0)
-		return (n_put);
-	else
-		return (CODE_ERROR_IO);
+	return (write(fd, conv->s, conv->e - conv->s));
 }
 
 static int	fwrite_char_with_padding(int fd, t_conv *conv, int c, char *pad)
 {
 	unsigned char	buf;
+	int				res;
 
 	buf = c;
-	if (!conv->f_left && write(fd, pad, conv->minwidth - 1) < 0)
-		return (CODE_ERROR_IO);
-	if (write(fd, &buf, 1) < 0)
-		return (CODE_ERROR_IO);
-	if (conv->f_left && write(fd, pad, conv->minwidth - 1) < 0)
-		return (CODE_ERROR_IO);
+	if (!conv->f_left)
+	{
+		res = write(fd, pad, ft_strlen(pad));
+		if (res < 0)
+			return (res);
+	}
+	res = write(fd, &buf, 1);
+	if (res < 0)
+		return (res);
+	if (conv->f_left)
+	{
+		res = write(fd, pad, ft_strlen(pad));
+		if (res < 0)
+			return (res);
+	}
 	return (CODE_OK);
 }
 
@@ -45,7 +61,7 @@ int	fwrite_char(int fd, t_conv *conv, int c)
 	res = fwrite_char_with_padding(fd, conv, c, padding);
 	free(padding);
 	if (res < 0)
-		return (CODE_ERROR_IO);
+		return (res);
 	return (n_put);
 }
 
@@ -73,17 +89,6 @@ int	fwrite_str(int fd, t_conv *conv, char *str)
 	res = write(fd, buf, n_put);
 	free(buf);
 	if (res < 0)
-		return (CODE_ERROR_IO);
+		return (res);
 	return (n_put);
-}
-
-int	fwrite_pcent(int fd)
-{
-	char	pcent;
-
-	pcent = SYMBOL_PCENT;
-	if (write(fd, &pcent, 1) < 0)
-		return (CODE_ERROR_IO);
-	else
-		return (1);
 }
