@@ -56,6 +56,8 @@ int	fwrite_str(int fd, t_conv *conv, char *str)
 	char	*buf;
 	int		len_max;
 
+	if (!str)
+		str = SYMBOL_NULL;
 	len_max = ft_strlen(str);
 	if (conv->f_precision && conv->precision < len_max)
 		len_max = conv->precision;

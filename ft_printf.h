@@ -26,9 +26,7 @@ int		fwrite_str(int fd, char *str);
 int		fwrite_pcent(int fd);
 
 int		fwrite_sdec(int fd, int num);
-int		fwrite_udec(int fd, t_uint num);
-int		fwrite_lhex(int fd, t_uint num);
-int		fwrite_uhex(int fd, t_uint num);
+int		fwrite_uint(int fd, t_uint num, char *charset);
 
 int		fwrite_ptr(int fd, void *ptr);
 

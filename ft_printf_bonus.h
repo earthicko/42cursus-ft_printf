@@ -42,8 +42,7 @@ int		fwrite_str(int fd, t_conv *conv, char *str);
 int		fwrite_pcent(int fd);
 //		fwrite_num_bonus.c
 int		fwrite_sdec(int fd, t_conv *conv, int num);
-int		fwrite_udec(int fd, t_conv *conv, t_uint num);
-int		fwrite_hex(int fd, t_conv *conv, t_uint num, char *charset);
+int		fwrite_uint(int fd, t_conv *conv, t_uint num, char *charset);
 //		fwrite_ptr_bonus.c
 int		fwrite_ptr(int fd, t_conv *conv, void *ptr);
 //		fwrite_utils_bonus.c

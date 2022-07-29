@@ -56,7 +56,7 @@ int	ft_printf(const char *format, ...)
 	if (res < 0)
 	{
 		ft_lstclear(&convs, del_conv);
-		return (CODE_ERROR_GENERIC);
+		return (res);
 	}
 	va_start(p_args, format);
 	res = fwrite_list(STDOUT_FILENO, convs, p_args);
