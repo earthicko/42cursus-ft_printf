@@ -1,5 +1,7 @@
 # 해석기
 
+## 포맷 해석기
+
 ```c
 int	parse_format(t_list **convs, const char *format)
 {
@@ -36,13 +38,15 @@ int	parse_format(t_list **convs, const char *format)
     - `%`을 가리킬 때 까지 커서를 앞으로 옮긴다.
     - 원래 커서가 있던 자리부터 커서가 멈춘 자리까지 출력할 것을 지시하는 티켓을 리스트 끝에 추가한다.
 
-> `PLAIN` 변환에서 `t_conv.s`와 `t_conv.e`를 지정하는 규칙
+> ### `PLAIN` 변환에서 `t_conv.s`와 `t_conv.e`를 지정하는 규칙
 > ```
 > 문자열 :"Hello, %s!"
 > 인덱스 : 0123456789
 > ```
 > 위 문자열에서 `Hello, ` 부분이 `PLAIN` 변환에 해당된다. 이때 변환할 부분은 `'H'`(0번)에서 `' '`(6번)까지이다.
-> 그러므로 티켓에서 `t_conv.s`는 `H`를 가리키도록 (즉 `format + 0`) 설정한다. 하지만 `t_conv.e`는 ` `를 가리키도록 (즉 `format + 6`) 설정하지 않고, 그 다음 문자인 `%`를 가리키도록 (즉 `format + 7`) 한다.
+> 
+> 그러므로 티켓에서 `t_conv.s`는 `H`를 가리키도록 (즉 `t_conv.s = format + 0`) 설정한다. 하지만 `t_conv.e`는 ` `를 가리키도록 (즉 `t_conv.e = format + 6`) 설정하지 않고, 그 다음 문자인 `%`를 가리키도록 (즉 `t_conv.e = format + 7`) 한다.
+> 
 > 이렇게 하면 `e - s` 연산으로 출력할 문자열의 길이를 알아낼 수 있고, `while (s != e) write(fd, s++, 1);` 등의 문장으로 전체를 출력할 수 있는 등 표현이 간결해진다.
 > 이외의 변환에서는 `t_conv.s`와 `t_conv.e`가 특별한 의미를 가지지 않는다.
 
@@ -75,6 +79,16 @@ static int	parse_conversion(t_list **convs, char **format)
 ```
 
 - 빈 티켓 (`t_conv`)을 하나 생성한다.
+- 플래그, 최소 너비, 정밀도를 해석하는 함수를 차례대로 호출한다.
+  - 각 함수는 자신이 `format`을 해석해감에 따라 항상 커서를 마지막으로 읽은 문자 **다음**에 위치시킨다.
+  - 각 함수는 자신이 해석한 내용을 모두 같은 티켓에 적는다.
+  - 이 함수들은 예상치 못한 문자가 출현할 경우 단순히 해석을 중지한다.
+- 변환 지정자를 해석하는 함수를 호출하고 반환값을 본다.
+  - 오류가 발생한 경우 어느 단계에선가 해석 오류가 발생했다는 뜻이다. 이때 커서는 오류 발생 지점에 멈춰 있다.
+  - 티켓을 삭제하고 해석기를 종료한다. 포맷 해석기는 해당 지점부터 해석을 재개할 것이다.
+- 오류가 발생하지 않은 경우 커서는 변환 지정자 **다음** 문자에 위치해 있다. 티켓을 리스트에 추가한다.
+
+### 플래그 해석 논리
 
 ```c
 static int	is_printf_flag(char c)
@@ -107,6 +121,8 @@ void	parse_printf_flags(t_conv *conv, char **format)
 - `f_altform`, `f_blank`, `f_sign`, `f_left`, `f_zeropad`: 각 플래그의 유무를 확인하고 이를 티켓에 기록한다.
   - 플래그에 해당하는 문자 `# +-0`가 아닌 문자가 출현할 때까지 커서를 앞으로 옮긴다. 마주친 플래그를 켠다.
 
+### 최소 너비 해석 논리
+
 ```c
 void	parse_printf_minwidth(t_conv *conv, char **format)
 {
@@ -127,6 +143,8 @@ void	parse_printf_minwidth(t_conv *conv, char **format)
   - 커서가 숫자를 가리키고 있다면 최소 너비가 지정된 것이다.
   - 숫자가 아닌 문자를 마주칠 때까지 커서를 앞으로 옮긴다. 
   - `minwidth`: 숫자가 끝나는 지점까지의 문자열을 `atoi`로 변환한 결과가 최소 너비다. 
+
+### 정밀도 해석 논리
 
 ```c
 void	parse_printf_precision(t_conv *conv, char **format)
@@ -151,6 +169,8 @@ void	parse_printf_precision(t_conv *conv, char **format)
   - 커서가 `.`을 가리킨다면 정밀도가 지정된 것이다.
   - 숫자가 아닌 문자를 마주칠 때까지 커서를 앞으로 이동한다.
   - `precision`: 숫자가 발견되지 않았다면 정밀도는 `0`이고, 숫자가 존재할 경우 `atoi`로 정밀도를 획득한다. 
+
+### 변환 지정자 해석 논리
 
 ```c
 int	parse_printf_conv(t_conv *conv, char **fmt)
@@ -187,8 +207,6 @@ int	parse_printf_conv(t_conv *conv, char **fmt)
 
 ## 단순 출력(PLAIN) 티켓 생성기
 
-- 티켓에 `i_conv`와 출력 범위를 지정하고 리스트에 추가한다.
-
 ```c
 static int	add_plain_text(t_list **convs, char *s, char *e)
 {
@@ -211,3 +229,5 @@ static int	add_plain_text(t_list **convs, char *s, char *e)
 	return (CODE_OK);
 }
 ```
+
+- 티켓에 `i_conv`와 출력 범위를 지정하고 리스트에 추가한다.
