@@ -37,19 +37,19 @@
 
 ```c
 typedef struct s_conv
-{
-	int		i_conv;			// 수행할 변환의 번호
-	char	*s;				// format에서 해당 변환의 시작점
-	char	*e;				// format에서 해당 변환의 시작점
-	int		minwidth;		// 최소 너비 값
-	int		precision;		// 정밀도 값
-	int		f_minwidth;		// 최소 너비 적용 여부
-	int		f_left;			// [-] 좌측 정렬 여부
-	int		f_zeropad;		// [0] 패딩을 0으로 쓸 것인지 여부
-	int		f_precision;	// [.] 정밀도 적용 여부
-	int		f_altform;		// [#] 대체 형태 적용 여부
-	int		f_blank;		// [ ] 양의 부호 자리에 공백 출력 여부
-	int		f_sign;			// [+] 양의 부호 출력 여부
+{ 
+    int     i_conv;         // 수행할 변환의 번호
+    char    *s;             // format에서 해당 변환의 시작점
+    char    *e;             // format에서 해당 변환의 시작점
+    int     minwidth;       // 최소 너비 값
+    int     precision;      // 정밀도 값
+    int     f_minwidth;     // 최소 너비 적용 여부
+    int     f_left;         // [-] 좌측 정렬 여부
+    int     f_zeropad;      // [0] 패딩을 0으로 쓸 것인지 여부
+    int     f_precision;    // [.] 정밀도 적용 여부
+    int     f_altform;      // [#] 대체 형태 적용 여부
+    int     f_blank;        // [ ] 양의 부호 자리에 공백 출력 여부
+    int     f_sign;         // [+] 양의 부호 출력 여부
 }	t_conv;
 ```
 
