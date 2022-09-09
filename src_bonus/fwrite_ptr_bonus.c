@@ -44,7 +44,7 @@ static char	*cstr_ptr_prefix(t_conv *conv, int len_ptr)
 		return (NULL);
 	if (conv->f_precision && conv->precision > len_ptr)
 	{
-		temp = cstr_nchars(conv->precision - len_ptr, PREFIX_BLANK[0]);
+		temp = cstr_nchars(conv->precision - len_ptr, CHARSET_LHEX[0]);
 		if (!temp)
 		{
 			free(buf);
