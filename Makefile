@@ -59,6 +59,8 @@ fclean : clean
 	$(RM) $(NAME)
 	make fclean -C $(LIBFT_DIR)
 
-re : fclean all
+re :
+	make fclean
+	make all
 
 .PHONY: all bonus clean fclean re
