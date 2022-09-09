@@ -51,7 +51,10 @@ int	fwrite_char(int fd, t_conv *conv, int c)
 	n_put = 1;
 	if (conv->f_minwidth && conv->minwidth > 1)
 	{
-		padding = cstr_nchars(conv->minwidth - 1, PREFIX_BLANK[0]);
+		if (conv->f_zeropad && !conv->f_left)
+			padding = cstr_nchars(conv->minwidth - 1, CHARSET_DEC[0]);
+		else
+			padding = cstr_nchars(conv->minwidth - 1, PREFIX_BLANK[0]);
 		n_put += conv->minwidth - 1;
 	}
 	else
