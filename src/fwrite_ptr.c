@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: donghyle <donghyle@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/29 16:14:06 by donghyle          #+#    #+#             */
-/*   Updated: 2022/07/29 16:14:07 by donghyle         ###   ########.fr       */
+/*   Created: 2022/07/29 16:14:35 by donghyle          #+#    #+#             */
+/*   Updated: 2022/07/29 16:14:36 by donghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,60 +33,88 @@ static int	ft_ptrlen(void *ptr)
 	return (len);
 }
 
-static int	fwrite_ptr_digits(int fd, int len, unsigned char *c)
+static char	*cstr_ptr_prefix(t_conv *conv, int len_ptr)
 {
-	int	i;
-	int	res;
+	int		res;
+	char	*buf;
+	char	*temp;
 
-	i = sizeof(void *) * 2;
-	while (i > 0)
+	buf = ft_strdup(PREFIX_LHEX);
+	if (!buf)
+		return (NULL);
+	if (conv->f_precision && conv->precision > len_ptr)
 	{
-		if (i <= len)
+		temp = cstr_nchars(conv->precision - len_ptr, CHARSET_LHEX[0]);
+		if (!temp)
 		{
-			res = write(fd, &CHARSET_LHEX[*c / 16], 1);
-			if (res < 0)
-				return (res);
+			free(buf);
+			return (NULL);
 		}
-		i--;
-		if (i <= len)
-		{
-			res = write(fd, &CHARSET_LHEX[*c % 16], 1);
-			if (res < 0)
-				return (res);
-		}
-		i--;
-		c--;
+		res = ft_strappend(&buf, temp);
+		free(temp);
+		if (res < 0)
+			return (NULL);
 	}
-	return (CODE_OK);
+	return (buf);
 }
 
-static int	fwrite_ptr_unsigned(int fd, void *ptr)
+static void	cstr_ptr_fill_str(void *ptr, int len_ptr, char *buf)
 {
 	unsigned char	*cursor;
-	int				len;
-	int				res;
+	int				i;
 
-	if (ptr == NULL)
-		return (write(fd, CHARSET_LHEX, 1));
-	len = ft_ptrlen(ptr);
 	cursor = (unsigned char *)(&ptr) + sizeof(ptr) - 1;
-	res = fwrite_ptr_digits(fd, len, cursor);
-	if (res < 0)
-		return (res);
-	return (len);
+	i = -(sizeof(ptr) * 2) + len_ptr;
+	while (i < len_ptr)
+	{
+		if (i >= 0)
+			buf[i] = CHARSET_LHEX[*cursor / 16];
+		i++;
+		if (i >= 0)
+			buf[i] = CHARSET_LHEX[*cursor % 16];
+		i++;
+		cursor--;
+	}
+	buf[len_ptr] = '\0';
 }
 
-int	fwrite_ptr(int fd, void *ptr)
+static char	*cstr_ptr_unsigned(t_conv *conv, void *ptr, int len_ptr)
 {
-	int		n_put;
-	int		res;
+	char			*buf;
 
-	n_put = write(fd, PREFIX_LHEX, L_PREFIX_HEX);
-	if (n_put < 0)
-		return (n_put);
-	res = fwrite_ptr_unsigned(fd, ptr);
+	if (ptr == NULL)
+	{
+		if (conv->f_precision)
+			return (ft_strdup(""));
+		else
+			return (ft_substr(CHARSET_LHEX, 0, 1));
+	}
+	buf = (char *)malloc(len_ptr + 1);
+	if (!buf)
+		return (NULL);
+	cstr_ptr_fill_str(ptr, len_ptr, buf);
+	return (buf);
+}
+
+int	fwrite_ptr(int fd, t_conv *conv, void *ptr)
+{
+	int		res;
+	char	*buf[4];
+	int		len_ptr;
+
+	len_ptr = ft_ptrlen(ptr);
+	buf[1] = cstr_ptr_prefix(conv, len_ptr);
+	buf[2] = cstr_ptr_unsigned(conv, ptr, len_ptr);
+	buf[3] = cstr_padding(conv, ft_strlen(buf[1]) + ft_strlen(buf[2]));
+	buf[0] = merge_num_buffers(conv, buf);
+	if (!buf[0])
+	{
+		abort_fwrite(buf);
+		return (CODE_ERROR_MALLOC);
+	}
+	res = write(fd, buf[0], ft_strlen(buf[0]));
+	abort_fwrite(buf);
 	if (res < 0)
 		return (res);
-	n_put += res;
-	return (n_put);
+	return (res);
 }

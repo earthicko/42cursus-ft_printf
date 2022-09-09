@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: donghyle <donghyle@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/29 16:13:25 by donghyle          #+#    #+#             */
-/*   Updated: 2022/07/29 16:13:27 by donghyle         ###   ########.fr       */
+/*   Created: 2022/07/29 16:13:41 by donghyle          #+#    #+#             */
+/*   Updated: 2022/07/29 16:13:42 by donghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 # define CODE_OK 0
 # define CODE_ERROR_GENERIC -1
 # define CODE_ERROR_MALLOC -2
+# define SYMBOL_ALTFORM '#'
+# define SYMBOL_BLANK ' '
+# define SYMBOL_SIGN '+'
+# define SYMBOL_LEFT '-'
+# define SYMBOL_ZEROPAD '0'
 # define SYMBOL_CHAR 'c'
 # define SYMBOL_STR 's'
 # define SYMBOL_PTR 'p'
@@ -30,9 +35,13 @@
 # define CHARSET_UHEX "0123456789ABCDEF"
 # define PREFIX_LHEX "0x"
 # define PREFIX_UHEX "0X"
+# define PREFIX_POS "+"
 # define PREFIX_NEG "-"
+# define PREFIX_BLANK " "
 # define L_PREFIX_HEX 2
+# define L_PREFIX_POS 1
 # define L_PREFIX_NEG 1
+# define L_PREFIX_BLANK 1
 
 typedef long long			t_ll;
 typedef unsigned long long	t_ull;

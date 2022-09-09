@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: donghyle <donghyle@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/29 16:14:09 by donghyle          #+#    #+#             */
-/*   Updated: 2022/07/29 16:14:11 by donghyle         ###   ########.fr       */
+/*   Created: 2022/07/29 16:14:38 by donghyle          #+#    #+#             */
+/*   Updated: 2022/07/29 16:14:39 by donghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ static int	parse_conversion(t_list **convs, char **format)
 	if (!new_conv)
 		return (CODE_ERROR_MALLOC);
 	start = *format;
-	(*format)++;
+	parse_printf_flags(new_conv, format);
+	parse_printf_minwidth(new_conv, format);
+	parse_printf_precision(new_conv, format);
 	if (parse_printf_conv(new_conv, format) != CODE_OK)
 	{
 		del_conv(new_conv);

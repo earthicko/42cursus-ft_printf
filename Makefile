@@ -12,8 +12,9 @@ SRC_DIR_BONUS	= ./src_bonus/
 SRCNAME			= \
 				ft_printf \
 				fwrite_chr fwrite_num fwrite_ptr \
-				fwrite_utils \
-				parse_format parse_format_utils t_conv
+				fwrite_utils ft_str_utils ft_numlen \
+				parse_format parse_format_utils t_conv \
+				create_str create_str_utils
 
 SRCNAME_BONUS	= \
 				ft_printf_bonus \

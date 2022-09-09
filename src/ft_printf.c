@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: donghyle <donghyle@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/29 16:13:58 by donghyle          #+#    #+#             */
-/*   Updated: 2022/07/29 16:14:01 by donghyle         ###   ########.fr       */
+/*   Created: 2022/07/29 16:14:29 by donghyle          #+#    #+#             */
+/*   Updated: 2022/07/29 16:14:30 by donghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@ static int	fwrite_conv(int fd, t_conv *cv, va_list p_args)
 	if (cv->i_conv == PLAIN)
 		return (fwrite_plain(fd, cv));
 	else if (cv->i_conv == CHAR)
-		return (fwrite_char(fd, va_arg(p_args, int)));
+		return (fwrite_char(fd, cv, va_arg(p_args, int)));
 	else if (cv->i_conv == STR)
-		return (fwrite_str(fd, va_arg(p_args, char *)));
+		return (fwrite_str(fd, cv, va_arg(p_args, char *)));
 	else if (cv->i_conv == PTR)
-		return (fwrite_ptr(fd, va_arg(p_args, void *)));
+		return (fwrite_ptr(fd, cv, va_arg(p_args, void *)));
 	else if (cv->i_conv == SDEC)
-		return (fwrite_int(fd, va_arg(p_args, int), CHARSET_DEC));
+		return (fwrite_int(fd, cv, va_arg(p_args, int), CHARSET_DEC));
 	else if (cv->i_conv == UDEC)
-		return (fwrite_uint(fd, va_arg(p_args, int), CHARSET_DEC));
+		return (fwrite_uint(fd, cv, va_arg(p_args, int), CHARSET_DEC));
 	else if (cv->i_conv == LHEX)
-		return (fwrite_uint(fd, va_arg(p_args, int), CHARSET_LHEX));
+		return (fwrite_uint(fd, cv, va_arg(p_args, int), CHARSET_LHEX));
 	else if (cv->i_conv == UHEX)
-		return (fwrite_uint(fd, va_arg(p_args, int), CHARSET_UHEX));
+		return (fwrite_uint(fd, cv, va_arg(p_args, int), CHARSET_UHEX));
 	else if (cv->i_conv == PCENT)
-		return (fwrite_char(fd, SYMBOL_PCENT));
+		return (fwrite_char(fd, cv, SYMBOL_PCENT));
 	else
 		return (CODE_ERROR_GENERIC);
 }

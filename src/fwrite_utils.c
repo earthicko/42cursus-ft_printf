@@ -5,53 +5,61 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: donghyle <donghyle@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/29 16:14:08 by donghyle          #+#    #+#             */
-/*   Updated: 2022/07/29 16:14:09 by donghyle         ###   ########.fr       */
+/*   Created: 2022/07/29 16:14:37 by donghyle          #+#    #+#             */
+/*   Updated: 2022/07/29 16:14:38 by donghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include <stdlib.h>
 #include "ft_printf.h"
 
-static int	putdigit_fd_base_unsigned(int fd, t_ll nbr, char *base, int l_base)
+char	*merge_num_buffers(t_conv *conv, char **buf)
 {
-	int	n_put;
-	int	digit;
-	int	res;
+	char	*merged;
 
-	if (nbr == 0)
-		return (0);
-	digit = nbr % l_base;
-	if (digit < 0)
-		digit = -digit;
-	n_put = putdigit_fd_base_unsigned(fd, nbr / l_base, base, l_base);
-	if (n_put < 0)
-		return (n_put);
-	res = write(fd, base + digit, 1);
-	if (res < 0)
-		return (res);
-	return (n_put + res);
+	if (buf[3][0] == SYMBOL_ZEROPAD)
+		merged = ft_strmerge(3, buf[1], buf[3], buf[2]);
+	else
+	{
+		if (conv->f_left)
+			merged = ft_strmerge(3, buf[1], buf[2], buf[3]);
+		else
+			merged = ft_strmerge(3, buf[3], buf[1], buf[2]);
+	}
+	return (merged);
 }
 
-int	ft_putnbr_fd_base(int fd, t_ll nbr, char *base)
+void	abort_fwrite(char **bufs)
 {
-	int	n_put;
-	int	res;
-	int	l_base;
+	int	i;
 
-	l_base = ft_strlen(base);
-	if (nbr == 0)
-		return (write(fd, base, 1));
-	n_put = 0;
-	if (nbr < 0)
+	i = 0;
+	while (i < 4)
 	{
-		res = write(fd, PREFIX_NEG, L_PREFIX_NEG);
-		if (res < 0)
-			return (res);
-		n_put += res;
+		if (bufs[i])
+			free(bufs[i]);
+		i++;
 	}
-	res = putdigit_fd_base_unsigned(fd, nbr, base, l_base);
+}
+
+int	add_padding(t_conv *conv, char **buf)
+{
+	int		res;
+	char	*padding;
+	char	*temp;
+
+	padding = cstr_padding(conv, ft_strlen(*buf));
+	if (!padding)
+		return (CODE_ERROR_MALLOC);
+	if (!conv->f_left)
+	{
+		temp = *buf;
+		*buf = padding;
+		padding = temp;
+	}
+	res = ft_strappend(buf, padding);
+	free(padding);
 	if (res < 0)
-		return (res);
-	return (n_put + res);
+		return (CODE_ERROR_MALLOC);
+	return (CODE_OK);
 }
